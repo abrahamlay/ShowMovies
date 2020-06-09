@@ -1,0 +1,6 @@
+include ':base'
+include ':home'
+include ':data'
+include ':domain'
+include ':app'
+rootProject.name = "ShowMovies"
