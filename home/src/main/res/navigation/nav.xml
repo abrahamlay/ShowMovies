@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.abrahamlay.home.genre.MainFragment"
+        android:label="MainFragment">
+        <action
+            android:id="@+id/action_mainFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.abrahamlay.detail.DetailFragment"
+        android:label="DetailFragment">
+        <argument
+            android:name="movieModel"
+            app:argType="com.abrahamlay.domain.entities.MovieModel" />
+        <action
+            android:id="@+id/action_detailFragment_pop"
+            app:popUpTo="@id/detailFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

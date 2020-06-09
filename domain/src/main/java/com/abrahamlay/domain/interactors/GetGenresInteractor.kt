@@ -2,7 +2,7 @@ package com.abrahamlay.domain.interactors
 
 import com.abrahamlay.domain.FlowableUseCase
 import com.abrahamlay.domain.PostExecutionThread
-import com.abrahamlay.domain.entities.MovieModel
+import com.abrahamlay.domain.entities.GenreModel
 import com.abrahamlay.domain.repositories.MovieRepository
 import io.reactivex.Flowable
 
@@ -13,9 +13,9 @@ import io.reactivex.Flowable
 class GetGenresInteractor constructor(
     private val repository: MovieRepository,
     postExecutionThread: PostExecutionThread
-) : FlowableUseCase<List<MovieModel>, GetGenresInteractor.Params>(postExecutionThread) {
-    override fun build(params: Params): Flowable<List<MovieModel>> =
-        repository.getTopRatedMovies(params.apiKey)
+) : FlowableUseCase<List<GenreModel>, GetGenresInteractor.Params>(postExecutionThread) {
+    override fun build(params: Params): Flowable<List<GenreModel>> =
+        repository.getGenres(params.apiKey)
 
     data class Params(val apiKey: String)
 }

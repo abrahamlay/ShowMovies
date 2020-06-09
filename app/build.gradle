@@ -22,8 +22,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildFeatures {
-        dataBinding = true
+    dataBinding {
+        enabled = true
     }
 
     buildTypes {
@@ -45,17 +45,17 @@ android {
     productFlavors {
         development {
             dimension "env"
-            applicationId "com.abrahamlay.covid19app.dev"
+            applicationId "com.abrahamlay.showmovies.dev"
             buildConfigField("String", "API_BASE_URL", config.env.dev.baseurl)
         }
         staging {
             dimension "env"
-            applicationId "com.abrahamlay.covid19app.dev"
+            applicationId "com.abrahamlay.showmovies.dev"
             buildConfigField("String", "API_BASE_URL", config.env.staging.baseurl)
         }
         production {
             dimension "env"
-            applicationId 'com.abrahamlay.covid19app'
+            applicationId 'com.abrahamlay.showmovies'
             buildConfigField("String", "API_BASE_URL", config.env.prod.baseurl)
         }
     }

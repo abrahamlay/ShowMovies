@@ -1,5 +1,7 @@
 package com.abrahamlay.showmovies.module
 
+import com.abrahamlay.base.subscriber.BaseViewModel
+import com.abrahamlay.home.genre.GenreViewModel
 import org.koin.androidx.experimental.dsl.viewModel
 import org.koin.dsl.module
 
@@ -8,6 +10,6 @@ import org.koin.dsl.module
  */
 
 val viewModelModule = module {
-//    viewModel<PopularMovieViewModel>()
-//    viewModel<TopRatedMovieViewModel>()
+    viewModel<GenreViewModel>()
+    viewModel<BaseViewModel>()
 }

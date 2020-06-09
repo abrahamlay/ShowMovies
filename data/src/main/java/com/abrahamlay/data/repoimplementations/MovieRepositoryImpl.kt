@@ -15,8 +15,8 @@ class MovieRepositoryImpl constructor(private val api: MovieAPI) : MovieReposito
     override fun getGenres(apiKey: String): Flowable<List<GenreModel>> = api.getGenres(apiKey).map {
         it.genres?.map { genre ->
             GenreModel(
-                genre.id,
-                genre.name
+                genre.id ?: throw NullPointerException("Expression 'genre.id' must not be null"),
+                genre.name ?: throw NullPointerException("Expression 'genre.name' must not be null")
             )
         }
     }

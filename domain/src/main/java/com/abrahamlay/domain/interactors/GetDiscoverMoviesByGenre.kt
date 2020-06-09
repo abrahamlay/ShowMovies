@@ -14,11 +14,14 @@ class GetDiscoverMoviesByGenre constructor(
     private val repository: MovieRepository,
     postExecutionThread: PostExecutionThread
 ) : FlowableUseCase<List<MovieModel>, GetDiscoverMoviesByGenre.Params>(postExecutionThread) {
-
-
     override fun build(params: Params): Flowable<List<MovieModel>> {
         return repository.getDiscoverMovies(params.apiKey, params.map)
     }
 
-    data class Params(val apiKey: String, val map: HashMap<String, Any>)
+    data class Params(val apiKey: String, val map: HashMap<String, Any>) {
+        companion object {
+            const val PAGE_KEY = "page"
+            const val GENRE_KEY = "with_genres"
+        }
+    }
 }

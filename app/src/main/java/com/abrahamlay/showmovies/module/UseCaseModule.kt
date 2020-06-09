@@ -2,6 +2,8 @@ package com.abrahamlay.showmovies.module
 
 import com.abrahamlay.domain.AndroidUIThread
 import com.abrahamlay.domain.PostExecutionThread
+import com.abrahamlay.domain.interactors.GetDiscoverMoviesByGenre
+import com.abrahamlay.domain.interactors.GetGenresInteractor
 import org.koin.dsl.module
 
 /**
@@ -10,6 +12,6 @@ import org.koin.dsl.module
 
 val useCaseModule = module {
     single<PostExecutionThread> { return@single AndroidUIThread() }
-    factory { GetPopularMovies(get(), get()) }
-    factory { GetTopRatedMovies(get(), get()) }
+    factory { GetGenresInteractor(get(), get()) }
+    factory { GetDiscoverMoviesByGenre(get(), get()) }
 }
