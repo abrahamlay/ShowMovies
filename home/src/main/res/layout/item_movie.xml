@@ -18,7 +18,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="200dp"
         android:layout_margin="@dimen/general_padding"
         android:background="@color/colorWhite"
         android:orientation="vertical"
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.6" />
+                app:layout_constraintGuide_percent="0.55" />
 
             <View
                 android:id="@+id/movie_content_background"
@@ -59,7 +59,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/small_padding"
                 android:layout_marginLeft="@dimen/small_padding"
-                android:layout_marginTop="@dimen/general_padding"
+                android:layout_marginTop="@dimen/small_padding"
                 android:layout_weight="1"
                 android:text="@{movieModel.title}"
                 android:textColor="@color/colorBlack"

@@ -22,12 +22,13 @@
 
         <include
             android:id="@+id/errorView"
-            layout="@layout/error_view"
-            android:visibility="gone"
-            />
+            layout="@layout/view_error"
+            android:visibility="gone" />
+
         <include
             android:id="@+id/progressBarView"
             layout="@layout/progress_bar" />
+
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,13 +51,13 @@
                 android:id="@+id/tab"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:visibility="gone"
                 app:layout_scrollFlags="enterAlways"
                 app:tabBackground="@color/colorPrimary"
+                app:tabIndicatorColor="@color/colorAccent"
                 app:tabMode="scrollable"
                 app:tabSelectedTextColor="@color/colorAccent"
-                app:tabIndicatorColor="@color/colorAccent"
-                app:tabTextColor="@color/colorWhite"
-                android:visibility="gone"/>
+                app:tabTextColor="@color/colorWhite" />
 
         </com.google.android.material.appbar.AppBarLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

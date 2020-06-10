@@ -1,4 +1,4 @@
-package com.abrahamlay.home.discover
+package com.abrahamlay.detail.reviews
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,21 +10,21 @@ import com.abrahamlay.base.state.NetworkState
 import com.abrahamlay.base.subscriber.BaseViewModel
 import com.abrahamlay.base.subscriber.DefaultSubscriber
 import com.abrahamlay.base.subscriber.ResultState
-import com.abrahamlay.domain.entities.MovieModel
-import com.abrahamlay.domain.interactors.GetDiscoverMoviesByGenre
+import com.abrahamlay.domain.entities.ReviewModel
+import com.abrahamlay.domain.interactors.GetReviews
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 /**
  * Created by Abraham Lay on 09/06/20.
  */
-class DiscoverViewModel(private val repositoryImpl: GetDiscoverMoviesByGenre) : BaseViewModel(),
-    DiscoverDataSourceDelegate<MovieModel> {
-    private var genreId: Int = 28
+class ReviewViewModel(private val repositoryImpl: GetReviews) : BaseViewModel(),
+    ReviewDataSourceDelegate<ReviewModel> {
+    private var movieId: Int = 28
 
     private var executor: Executor = Executors.newFixedThreadPool(5)
 
-    var productLiveData: LiveData<PagedList<MovieModel>> = MutableLiveData()
+    var productLiveData: LiveData<PagedList<ReviewModel>> = MutableLiveData()
 
     var errorLiveData: MutableLiveData<Throwable> = MutableLiveData()
 
@@ -37,8 +37,12 @@ class DiscoverViewModel(private val repositoryImpl: GetDiscoverMoviesByGenre) : 
         map = HashMap()
     }
 
-    private fun fetchMovie() {
-        val factory = DiscoverDataSourceFactory(genreId, INITIAL_PAGE, this)
+    private fun fetchReviews() {
+        val factory = ReviewDataSourceFactory(
+            movieId,
+            INITIAL_PAGE,
+            this
+        )
         networkState = Transformations.switchMap(
             factory.mutableLiveData
         ) { dataSource -> dataSource.networkState }
@@ -55,11 +59,11 @@ class DiscoverViewModel(private val repositoryImpl: GetDiscoverMoviesByGenre) : 
                 .build()
     }
 
-    fun refreshMovie(genreId: Int) {
-        map[GetDiscoverMoviesByGenre.Params.PAGE_KEY] = INITIAL_PAGE
-        map[GetDiscoverMoviesByGenre.Params.GENRE_KEY] = genreId
-        this.genreId = genreId
-        fetchMovie()
+    fun refreshReview(movieId: Int) {
+        map[GetReviews.Params.PAGE_KEY] =
+            INITIAL_PAGE
+        this.movieId = movieId
+        fetchReviews()
     }
 
     companion object {
@@ -67,16 +71,15 @@ class DiscoverViewModel(private val repositoryImpl: GetDiscoverMoviesByGenre) : 
         private const val LIMIT_ITEM = 20
     }
 
-    override fun getDiscoverMovieByPageData(
-        genreId: Int,
+    override fun getReviewData(
+        movieId: Int,
         pagePosition: Int,
-        onResult: (List<MovieModel>) -> Unit,
+        onResult: (List<ReviewModel>) -> Unit,
         onErrorRequest: (Throwable?) -> Unit
     ) {
-        map[GetDiscoverMoviesByGenre.Params.PAGE_KEY] = pagePosition
-        map[GetDiscoverMoviesByGenre.Params.GENRE_KEY] = genreId
-        repositoryImpl.execute(object : DefaultSubscriber<List<MovieModel>>() {
-            override fun onError(error: ResultState<List<MovieModel>>) {
+        map[GetReviews.Params.PAGE_KEY] = pagePosition
+        repositoryImpl.execute(object : DefaultSubscriber<List<ReviewModel>>() {
+            override fun onError(error: ResultState<List<ReviewModel>>) {
                 if (error is ResultState.Error) {
                     if (pagePosition == INITIAL_PAGE) {
                         errorLiveData.value = error.throwable
@@ -86,13 +89,13 @@ class DiscoverViewModel(private val repositoryImpl: GetDiscoverMoviesByGenre) : 
                 }
             }
 
-            override fun onSuccess(data: ResultState<List<MovieModel>>) {
+            override fun onSuccess(data: ResultState<List<ReviewModel>>) {
                 if (data is ResultState.Success && data.data.isNotEmpty()) {
                     onResult(data.data)
                 } else {
                     onErrorRequest(Throwable("There is no more item"))
                 }
             }
-        }, GetDiscoverMoviesByGenre.Params(Constants.API_KEY, map))
+        }, GetReviews.Params(Constants.API_KEY, movieId, map))
     }
 }

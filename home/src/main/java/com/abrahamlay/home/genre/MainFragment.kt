@@ -12,9 +12,9 @@ import com.abrahamlay.domain.entities.GenreModel
 import com.abrahamlay.home.R
 import com.abrahamlay.home.databinding.FragmentMainBinding
 import com.abrahamlay.home.discover.DiscoverMovieFragment
-import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.fragment_detail.toolbar
 import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.view_error.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -91,11 +91,11 @@ class MainFragment : TabFragment<GenreViewModel>() {
         errorView.visibility = View.GONE
     }
 
-    private fun showLoading(){
+    private fun showLoading() {
         progressBarView.visibility = View.VISIBLE
     }
 
-    private fun hideLoading(){
+    private fun hideLoading() {
         progressBarView.visibility = View.GONE
     }
 

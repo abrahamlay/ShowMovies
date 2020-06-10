@@ -10,8 +10,8 @@ import com.abrahamlay.base.presentation.BaseListFragment
 import com.abrahamlay.base.subscriber.BaseViewModel
 import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.home.databinding.MovieFragmentBinding
-import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.movie_fragment.*
+import kotlinx.android.synthetic.main.view_error.*
 
 /**
  * Created by Abraham Lay on 2020-06-09.

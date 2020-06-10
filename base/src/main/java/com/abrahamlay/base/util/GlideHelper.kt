@@ -9,7 +9,6 @@ import com.bumptech.glide.request.RequestOptions
 object GlideHelper {
     fun showImage(url: String, imageView: ImageView, context: Context) {
         val options = RequestOptions()
-            .centerCrop()
 
         val requestBuilder = Glide.with(context)
             .load(url)

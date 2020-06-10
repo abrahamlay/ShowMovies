@@ -10,12 +10,11 @@ import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.home.MovieAdapter
 import com.abrahamlay.home.MovieFragment
 import com.abrahamlay.home.R
-import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.movie_fragment.*
+import kotlinx.android.synthetic.main.view_error.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.OnClickListener {
-    private var viewStarted: Boolean = false
     private var genreId: Int? = 28
     override val viewModel by viewModel<DiscoverViewModel>()
     override fun onRefresh() {
@@ -38,24 +37,11 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
     override fun onInitViews() {
         super.onInitViews()
         genreId = arguments?.getInt(GENRE_ID)
-        viewStarted = true
     }
 
     override fun onInitObservers() {
         super.onInitObservers()
         getGenre()
-        viewModel.errorLiveData.observe(this, Observer { throwable ->
-            showError(throwable)
-        })
-        btnRetry.setOnClickListener {
-            getGenre()
-        }
-    }
-
-    private fun initAdapter() {
-        adapter = MovieAdapter()
-
-        (adapter as? MovieAdapter)?.onClickListener = this
 
         viewModel.productLiveData.observe(this, Observer { pagedList ->
             hideLoading()
@@ -65,6 +51,19 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
         viewModel.networkState.observe(this, Observer { networkState ->
             (adapter as MovieAdapter).setNetworkState(networkState)
         })
+        viewModel.errorLiveData.observe(this, Observer { throwable ->
+            showError(throwable)
+        })
+
+        btnRetry.setOnClickListener {
+            getGenre()
+        }
+    }
+
+    private fun initAdapter() {
+        adapter = MovieAdapter()
+
+        (adapter as? MovieAdapter)?.onClickListener = this
 
         rvList.adapter = adapter
         rvList.layoutManager = getLayoutManager()
