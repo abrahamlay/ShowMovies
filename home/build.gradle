@@ -43,6 +43,9 @@ dependencies {
     implementation support.navigationUi
     implementation support.navigationFragment
 
+    //paging
+    implementation support.paging
+
     //dependency injection
     implementation support.koin
     implementation support.koinScope

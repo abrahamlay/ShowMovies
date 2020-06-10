@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.detail.DetailFragment
 import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.home.MovieAdapter
@@ -40,58 +39,43 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
         super.onInitViews()
         genreId = arguments?.getInt(GENRE_ID)
         viewStarted = true
-        getGenre()
     }
 
     override fun onInitObservers() {
         super.onInitObservers()
+        getGenre()
+    }
 
+    private fun initAdapter() {
         adapter = MovieAdapter()
 
         (adapter as? MovieAdapter)?.onClickListener = this
 
-        viewModel.movieData.observe(this, Observer {
-            onMovieLoaded(it)
+        viewModel.productLiveData.observe(this, Observer { pagedList ->
+            hideLoading()
+            (adapter as MovieAdapter).submitList(pagedList)
         })
+
+        viewModel.networkState.observe(this, Observer { networkState ->
+            (adapter as MovieAdapter).setNetworkState(networkState)
+        })
+
+        rvList.adapter = adapter
+        rvList.layoutManager = getLayoutManager()
     }
 
-    private fun onMovieLoaded(resultState: ResultState<List<MovieModel>>) {
-        when (resultState) {
-            is ResultState.Success -> {
-                hideLoading()
-                (adapter as? MovieAdapter)?.data = resultState.data
-                rvList.adapter = adapter
-                rvList.layoutManager = getLayoutManager()
-            }
-            is ResultState.Error -> {
-                hideLoading()
-                Toast.makeText(context, resultState.throwable.message, Toast.LENGTH_SHORT).show()
-            }
-            is ResultState.Loading -> {
-                showLoading()
-            }
+    override fun onItemClicked(data: MovieModel?) {
+        data?.let {
+            Toast.makeText(context, data.title, Toast.LENGTH_SHORT).show()
+            val bundle = bundleOf(Pair(DetailFragment.PARAM_DETAIL_MOVIE, data))
+            findNavController().navigate(R.id.action_mainFragment_to_detailFragment, bundle)
         }
     }
-
-    override fun onItemClicked(data: Any) {
-        Toast.makeText(context, (data as MovieModel).title, Toast.LENGTH_SHORT).show()
-        val bundle = bundleOf(Pair(DetailFragment.PARAM_DETAIL_MOVIE, (data as MovieModel)))
-        findNavController().navigate(R.id.action_mainFragment_to_detailFragment, bundle)
-    }
-
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser && viewStarted) {
-            getGenre()
-            viewStarted = false
-        }
-    }
-
     private fun getGenre() {
         genreId?.let {
             showLoading()
             viewModel.refreshMovie(it)
+            initAdapter()
         }
     }
 }

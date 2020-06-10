@@ -23,5 +23,8 @@
         <include
             android:id="@+id/progressBarView"
             layout="@layout/progress_bar" />
+        <include
+            android:id="@+id/progressBarView"
+            layout="@layout/progress_bar" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
