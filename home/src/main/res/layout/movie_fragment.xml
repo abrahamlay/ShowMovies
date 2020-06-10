@@ -9,22 +9,27 @@
             type="com.abrahamlay.base.subscriber.BaseViewModel" />
     </data>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvList"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <include
-            android:id="@+id/progressBarView"
-            layout="@layout/progress_bar" />
-        <include
-            android:id="@+id/progressBarView"
-            layout="@layout/progress_bar" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:id="@+id/errorView"
+            layout="@layout/error_view"
+            android:visibility="gone" />
+    </FrameLayout>
 </layout>

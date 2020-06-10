@@ -20,6 +20,14 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <include
+            android:id="@+id/errorView"
+            layout="@layout/error_view"
+            android:visibility="gone"
+            />
+        <include
+            android:id="@+id/progressBarView"
+            layout="@layout/progress_bar" />
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +55,8 @@
                 app:tabMode="scrollable"
                 app:tabSelectedTextColor="@color/colorAccent"
                 app:tabIndicatorColor="@color/colorAccent"
-                app:tabTextColor="@color/colorWhite" />
+                app:tabTextColor="@color/colorWhite"
+                android:visibility="gone"/>
 
         </com.google.android.material.appbar.AppBarLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

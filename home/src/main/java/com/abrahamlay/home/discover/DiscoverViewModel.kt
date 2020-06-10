@@ -26,6 +26,8 @@ class DiscoverViewModel(private val repositoryImpl: GetDiscoverMoviesByGenre) : 
 
     var productLiveData: LiveData<PagedList<MovieModel>> = MutableLiveData()
 
+    var errorLiveData: MutableLiveData<Throwable> = MutableLiveData()
+
     var networkState: LiveData<NetworkState> = MutableLiveData()
 
 
@@ -76,7 +78,11 @@ class DiscoverViewModel(private val repositoryImpl: GetDiscoverMoviesByGenre) : 
         repositoryImpl.execute(object : DefaultSubscriber<List<MovieModel>>() {
             override fun onError(error: ResultState<List<MovieModel>>) {
                 if (error is ResultState.Error) {
-                    onErrorRequest(error.throwable)
+                    if(pagePosition == INITIAL_PAGE){
+                        errorLiveData.value = error.throwable
+                    } else {
+                        onErrorRequest(error.throwable)
+                    }
                 }
             }
 

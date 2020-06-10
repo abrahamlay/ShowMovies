@@ -10,6 +10,7 @@ import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.home.MovieAdapter
 import com.abrahamlay.home.MovieFragment
 import com.abrahamlay.home.R
+import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.movie_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -18,8 +19,7 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
     private var genreId: Int? = 28
     override val viewModel by viewModel<DiscoverViewModel>()
     override fun onRefresh() {
-        showLoading()
-        genreId?.let { viewModel.refreshMovie(it) }
+        getGenre()
     }
 
     companion object {
@@ -44,6 +44,12 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
     override fun onInitObservers() {
         super.onInitObservers()
         getGenre()
+        viewModel.errorLiveData.observe(this, Observer { throwable ->
+            showError(throwable)
+        })
+        btnRetry.setOnClickListener {
+            getGenre()
+        }
     }
 
     private fun initAdapter() {
@@ -71,8 +77,10 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
             findNavController().navigate(R.id.action_mainFragment_to_detailFragment, bundle)
         }
     }
+
     private fun getGenre() {
         genreId?.let {
+            hideError()
             showLoading()
             viewModel.refreshMovie(it)
             initAdapter()

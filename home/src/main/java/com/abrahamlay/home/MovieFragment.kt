@@ -10,6 +10,7 @@ import com.abrahamlay.base.presentation.BaseListFragment
 import com.abrahamlay.base.subscriber.BaseViewModel
 import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.home.databinding.MovieFragmentBinding
+import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.movie_fragment.*
 
 /**
@@ -44,9 +45,6 @@ abstract class MovieFragment<VM : BaseViewModel> : BaseListFragment<MovieModel, 
 
     open fun showProgressBar(active: Boolean) {
         if (isAdded) {
-            progressBarView.let {
-                progressBarView.visibility = if (active) View.VISIBLE else View.GONE
-            }
             refresh.let { refresh.isRefreshing = active }
         }
     }
@@ -57,6 +55,15 @@ abstract class MovieFragment<VM : BaseViewModel> : BaseListFragment<MovieModel, 
 
     fun hideLoading() {
         refresh.isRefreshing = false
+    }
+
+    protected fun showError(throwable: Throwable) {
+        errorView.visibility = View.VISIBLE
+        tvErrorMessage.text = throwable.localizedMessage
+    }
+
+    protected fun hideError() {
+        errorView.visibility = View.GONE
     }
 
 }
