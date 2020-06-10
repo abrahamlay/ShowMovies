@@ -22,14 +22,12 @@ class DiscoverViewModel(repositoryImpl: GetDiscoverMoviesByGenre) : BaseViewMode
             return@switchMap mutableRepo
         }
 
+    var map: HashMap<String, Any> by HashMap<String, Any>()
     init {
-        refreshMovie()
+        map = HashMap()
     }
 
     private fun fetchMovie(repositoryImpl: GetDiscoverMoviesByGenre) {
-        val map = HashMap<String, Any>()
-        map[GetDiscoverMoviesByGenre.Params.PAGE_KEY] = 1
-        map[GetDiscoverMoviesByGenre.Params.GENRE_KEY] = 28
         repositoryImpl.execute(object : DefaultSubscriber<List<MovieModel>>() {
             override fun onError(error: ResultState<List<MovieModel>>) {
                 mutableRepo.postValue(error)
@@ -41,7 +39,13 @@ class DiscoverViewModel(repositoryImpl: GetDiscoverMoviesByGenre) : BaseViewMode
         }, GetDiscoverMoviesByGenre.Params(Constants.API_KEY, map))
     }
 
-    fun refreshMovie() {
+    fun refreshMovie(genreId: Int) {
+        map[GetDiscoverMoviesByGenre.Params.PAGE_KEY] = INITIAL_PAGE
+        map[GetDiscoverMoviesByGenre.Params.GENRE_KEY] = genreId
         triggerFetch.value = true
+    }
+
+    companion object {
+        private const val INITIAL_PAGE = 1
     }
 }

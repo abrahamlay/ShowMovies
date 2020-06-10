@@ -6,11 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.abrahamlay.base.presentation.BaseActivity
 import com.abrahamlay.base.presentation.TabFragment
 import com.abrahamlay.base.subscriber.ResultState
+import com.abrahamlay.base.util.DateFormater
 import com.abrahamlay.domain.entities.GenreModel
-import com.abrahamlay.home.DiscoverMovieFragment
+import com.abrahamlay.home.R
+import com.abrahamlay.home.discover.DiscoverMovieFragment
 import com.abrahamlay.home.databinding.FragmentMainBinding
+import kotlinx.android.synthetic.main.fragment_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -29,6 +33,15 @@ class MainFragment : TabFragment<GenreViewModel>() {
         tabLayout = binding.root.findViewById(com.abrahamlay.base.R.id.tab)
         pager = binding.root.findViewById(com.abrahamlay.base.R.id.pager)
         return binding.root
+    }
+
+    override fun onInitViews() {
+        super.onInitViews()
+        (activity as BaseActivity<*>).setSupportActionBar(toolbar)
+
+        val supportActionBar = (activity as BaseActivity<*>).supportActionBar
+
+        supportActionBar?.title = getString(R.string.app_name)
     }
 
     override fun onInitObservers() {
