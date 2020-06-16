@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
@@ -19,22 +21,16 @@ android {
         dataBinding = true
     }
 
-
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinStdLib
 
-    //network
-    implementation libs.retrofit
-    implementation libs.okhttp
-    implementation libs.gson
-
-    //koin
-    implementation support.koin
-    implementation support.koinScope
-    implementation support.koinViewmodel
+    implementation project(':domain')
+    implementation project(':data')
+    implementation project(':base')
 
     //androidx
     implementation support.appcompat
@@ -43,15 +39,23 @@ dependencies {
     implementation support.core
     implementation support.design
 
-    //rxjava
-    implementation libs.rxjava
-
-    //image processor
-    implementation libs.glide
-
     //navigation
     implementation support.navigationUi
     implementation support.navigationFragment
+
+
+    //paging
+    implementation support.paging
+
+    //dependency injection
+    implementation support.koin
+    implementation support.koinScope
+    implementation support.koinViewmodel
+    implementation support.coroutines
+    implementation support.coroutinesCore
+
+    //network
+    implementation libs.retrofit
 
     testImplementation test.jUnit
     androidTestImplementation test.testRunner

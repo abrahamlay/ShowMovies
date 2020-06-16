@@ -1,10 +1,7 @@
 package com.abrahamlay.showmovies
 
 import android.app.Application
-import com.abrahamlay.showmovies.module.apiModule
-import com.abrahamlay.showmovies.module.dataModule
-import com.abrahamlay.showmovies.module.useCaseModule
-import com.abrahamlay.showmovies.module.viewModelModule
+import com.abrahamlay.showmovies.module.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -24,7 +21,8 @@ class AndroidApplication : Application() {
                     dataModule,
                     apiModule,
                     useCaseModule,
-                    viewModelModule
+                    viewModelModule,
+                    navigationModule
                 )
             )
         }

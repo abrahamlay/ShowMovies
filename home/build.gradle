@@ -50,6 +50,8 @@ dependencies {
     implementation support.koin
     implementation support.koinScope
     implementation support.koinViewmodel
+    implementation support.coroutines
+    implementation support.coroutinesCore
 
     //network
     implementation libs.retrofit

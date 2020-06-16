@@ -69,6 +69,7 @@ dependencies {
     implementation project(':data')
     implementation project(':base')
     implementation project(':home')
+    implementation project(':detail')
 
     //database
     implementation support.room
@@ -85,6 +86,10 @@ dependencies {
     implementation support.koin
     implementation support.koinScope
     implementation support.koinViewmodel
+
+    //navigation
+    implementation support.navigationUi
+    implementation support.navigationFragment
 
     //network
     implementation libs.retrofit

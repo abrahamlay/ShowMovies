@@ -40,13 +40,16 @@ abstract class TabFragment<VM : BaseViewModel> : BaseFragment<VM>() {
         titles = mutableListOf()
     }
 
-    protected fun initTabAndPager() {
+    protected fun initAdapter(){
+        adapter = TabAdapter(
+            fragments,
+            titles,
+            childFragmentManager
+        )
+    }
+    protected suspend fun initPager() {
         if (isAdded) {
-            adapter = TabAdapter(
-                fragments,
-                titles,
-                childFragmentManager
-            )
+            adapter?.notifyDataSetChanged()
             pager!!.adapter = adapter
             tabLayout!!.setupWithViewPager(pager)
         }

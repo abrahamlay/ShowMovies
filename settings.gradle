@@ -1,3 +1,4 @@
+include ':detail'
 include ':base'
 include ':home'
 include ':data'

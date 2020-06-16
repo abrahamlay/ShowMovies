@@ -1,45 +1,37 @@
-package com.abrahamlay.home
+package com.abrahamlay.detail.reviews
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.databinding.BindingAdapter
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.abrahamlay.base.constant.Constants
 import com.abrahamlay.base.databinding.ItemLoadingBinding
 import com.abrahamlay.base.state.NetworkState
-import com.abrahamlay.base.util.GlideHelper
-import com.abrahamlay.domain.entities.MovieModel
-import com.abrahamlay.home.databinding.ItemMovieBinding
+import com.abrahamlay.detail.R
+import com.abrahamlay.detail.databinding.ItemReviewsBinding
+import com.abrahamlay.domain.entities.ReviewModel
 
-/**
- * Created by Abraham Lay on 2020-06-09.
- */
-class MovieAdapter : PagedListAdapter<MovieModel, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class ReviewAdapter : PagedListAdapter<ReviewModel, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(viewGroup.context)
-        val bindingMovie =
-            ItemMovieBinding.bind(inflater.inflate(R.layout.item_movie, viewGroup, false))
+        val itemReviewsBinding =
+            ItemReviewsBinding.bind(inflater.inflate(R.layout.item_reviews, viewGroup, false))
         val bindingLoading =
             ItemLoadingBinding.bind(inflater.inflate(R.layout.item_loading, viewGroup, false))
 
 
         return if (viewType == TYPE_PROGRESS)
             NetworkStateItemViewHolder(bindingLoading.root)
-        else MovieItemViewHolder(bindingMovie)
+        else ReviewItemViewHolder(itemReviewsBinding)
     }
-
-    var onClickListener: OnClickListener? = null
 
     private var networkState: NetworkState? = null
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, pos: Int) {
-        if (viewHolder is MovieItemViewHolder) {
-            bindMovie(viewHolder, pos)
+        if (viewHolder is ReviewItemViewHolder) {
+            bindReview(viewHolder, pos)
         } else {
             (viewHolder as NetworkStateItemViewHolder).bindView(networkState)
         }
@@ -53,28 +45,17 @@ class MovieAdapter : PagedListAdapter<MovieModel, RecyclerView.ViewHolder>(DIFF_
         }
     }
 
-    private fun bindMovie(
-        viewHolder: MovieItemViewHolder,
+    private fun bindReview(
+        viewHolder: ReviewItemViewHolder,
         pos: Int
     ) {
-        viewHolder.itemMovieBinding.movieModel = getItem(pos)
-        viewHolder.setOnClickListener(View.OnClickListener {
-            onClickListener?.onItemClicked(
-                getItem(pos)
-            )
-        })
+        viewHolder.itemMovieBinding.reviewModel = getItem(pos)
     }
 
-    interface OnClickListener {
-        fun onItemClicked(data: MovieModel?)
-    }
 
-    inner class MovieItemViewHolder(val itemMovieBinding: ItemMovieBinding) :
+    inner class ReviewItemViewHolder(val itemMovieBinding: ItemReviewsBinding) :
         RecyclerView.ViewHolder(itemMovieBinding.root) {
 
-        fun setOnClickListener(listener: View.OnClickListener) {
-            itemView.setOnClickListener(listener)
-        }
     }
 
     fun setNetworkState(newNetworkState: NetworkState?) {
@@ -116,30 +97,17 @@ class MovieAdapter : PagedListAdapter<MovieModel, RecyclerView.ViewHolder>(DIFF_
         private const val TYPE_PROGRESS = 0
         private const val TYPE_ITEM = 1
 
-        @JvmStatic
-        @BindingAdapter("imageUrl")
-        fun loadImage(view: ImageView, url: String?) {
-            if (!url.isNullOrEmpty()) {
-                val addedUrl =
-                    if (!url.contains("https://") || !url.contains("http://")) String.format(
-                        Constants.MOVIE_THUMBNAIL_BASE_URL_LARGE,
-                        url
-                    ) else url
-                GlideHelper.showImage(addedUrl, view, view.context)
-            }
-        }
-
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MovieModel>() {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ReviewModel>() {
             override fun areItemsTheSame(
-                oldProduct: MovieModel,
-                newProduct: MovieModel
+                oldProduct: ReviewModel,
+                newProduct: ReviewModel
             ): Boolean {
                 return oldProduct == newProduct
             }
 
             override fun areContentsTheSame(
-                oldProduct: MovieModel,
-                newProduct: MovieModel
+                oldProduct: ReviewModel,
+                newProduct: ReviewModel
             ): Boolean {
                 return oldProduct == newProduct
             }

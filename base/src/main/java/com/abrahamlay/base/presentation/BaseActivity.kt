@@ -6,6 +6,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.NavHostFragment
+import com.abrahamlay.base.navigation.CommonNavigation
+import org.koin.android.ext.android.inject
 
 /**
  * Created by Abraham Lay on 2020-06-09.
@@ -16,6 +18,8 @@ abstract class BaseActivity<VM : ViewModel> : AppCompatActivity() {
 
     abstract val resourceLayout: Int?
     abstract val viewModel: VM
+
+    protected val commonNavigation by inject<CommonNavigation>()
 
     protected val navController by lazy {
         onCreateNavController()?.let(NavHostFragment::findNavController)

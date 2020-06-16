@@ -12,9 +12,12 @@ import com.abrahamlay.domain.entities.GenreModel
 import com.abrahamlay.home.R
 import com.abrahamlay.home.databinding.FragmentMainBinding
 import com.abrahamlay.home.discover.DiscoverMovieFragment
-import kotlinx.android.synthetic.main.fragment_detail.toolbar
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.view_error.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -68,16 +71,22 @@ class MainFragment : TabFragment<GenreViewModel>() {
                 showError(resultState.throwable)
             }
         }
-
     }
 
     private fun onGetGenres(genres: List<GenreModel>) {
         tabLayout?.visibility = View.VISIBLE
-        for (genre in genres) {
-            titles.add(genre.name)
-            fragments.add(DiscoverMovieFragment.newInstance(genre.id))
+        GlobalScope.launch {
+            for (genre in genres) {
+                titles.add(genre.name)
+                fragments.add(DiscoverMovieFragment.newInstance(genre.id))
+            }
+            initAdapter()
+            withContext(Dispatchers.Main) {
+                initPager()
+            }
         }
-        initTabAndPager()
+
+
     }
 
     override val viewModel by viewModel<GenreViewModel>()

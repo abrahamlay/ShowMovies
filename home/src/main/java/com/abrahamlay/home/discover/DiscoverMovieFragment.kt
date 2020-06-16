@@ -1,15 +1,11 @@
 package com.abrahamlay.home.discover
 
 import android.os.Bundle
-import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.abrahamlay.detail.DetailFragment
 import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.home.MovieAdapter
 import com.abrahamlay.home.MovieFragment
-import com.abrahamlay.home.R
 import kotlinx.android.synthetic.main.movie_fragment.*
 import kotlinx.android.synthetic.main.view_error.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -43,6 +39,15 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
         super.onInitObservers()
         getGenre()
 
+        btnRetry.setOnClickListener {
+            getGenre()
+        }
+    }
+
+    private fun initLiveData() {
+        viewModel.productLiveData.removeObservers(this)
+        viewModel.networkState.removeObservers(this)
+        viewModel.errorLiveData.removeObservers(this)
         viewModel.productLiveData.observe(this, Observer { pagedList ->
             hideLoading()
             (adapter as MovieAdapter).submitList(pagedList)
@@ -54,10 +59,6 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
         viewModel.errorLiveData.observe(this, Observer { throwable ->
             showError(throwable)
         })
-
-        btnRetry.setOnClickListener {
-            getGenre()
-        }
     }
 
     private fun initAdapter() {
@@ -71,9 +72,7 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
 
     override fun onItemClicked(data: MovieModel?) {
         data?.let {
-            Toast.makeText(context, data.title, Toast.LENGTH_SHORT).show()
-            val bundle = bundleOf(Pair(DetailFragment.PARAM_DETAIL_MOVIE, data))
-            findNavController().navigate(R.id.action_mainFragment_to_detailFragment, bundle)
+            commonNavigation.navigateToDetail(findNavController(), data)
         }
     }
 
@@ -84,5 +83,6 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
             viewModel.refreshMovie(it)
             initAdapter()
         }
+        initLiveData()
     }
 }
