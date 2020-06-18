@@ -54,7 +54,6 @@ class DetailFragment : BaseFragment<BaseViewModel>() {
             detailMovie = arguments?.getParcelable(PARAM_DETAIL_MOVIE)
         }
         setHasOptionsMenu(true)
-        DaggerDetailPageComponent.builder().build().inject(this)
     }
 
     override fun onCreateView(
