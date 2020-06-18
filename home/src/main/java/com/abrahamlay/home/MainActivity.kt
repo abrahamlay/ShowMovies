@@ -4,7 +4,7 @@ import android.view.MenuItem
 import androidx.navigation.fragment.NavHostFragment
 import com.abrahamlay.base.presentation.BaseActivity
 import com.abrahamlay.base.subscriber.BaseViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 2020-06-09.
@@ -12,7 +12,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<BaseViewModel>() {
     private lateinit var navHostFragment: NavHostFragment
-    override val viewModel by viewModel<BaseViewModel>()
+
+    @Inject
+    override lateinit var viewModel: BaseViewModel
     override val resourceLayout: Int?
         get() = R.layout.activity_main
 

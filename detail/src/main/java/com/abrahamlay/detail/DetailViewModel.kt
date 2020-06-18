@@ -9,11 +9,12 @@ import com.abrahamlay.base.subscriber.DefaultSubscriber
 import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.domain.entities.DetailMovieModel
 import com.abrahamlay.domain.interactors.GetDetailMovie
+import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 09/06/20.
  */
-class DetailViewModel(repositoryImpl: GetDetailMovie) : BaseViewModel() {
+class DetailViewModel @Inject constructor(repositoryImpl: GetDetailMovie) : BaseViewModel() {
     private var movieId: Int = 28
     private val mutableRepo = MutableLiveData<ResultState<DetailMovieModel>>()
     private val triggerFetch = MutableLiveData<Boolean>()

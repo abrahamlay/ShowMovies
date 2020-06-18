@@ -4,13 +4,14 @@ import com.abrahamlay.data.apis.MovieAPI
 import com.abrahamlay.domain.entities.*
 import com.abrahamlay.domain.repositories.MovieRepository
 import io.reactivex.Flowable
+import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 2020-06-09.
  */
 
 
-class MovieRepositoryImpl constructor(private val api: MovieAPI) : MovieRepository {
+class MovieRepositoryImpl @Inject constructor(private val api: MovieAPI) : MovieRepository {
     override fun getGenres(apiKey: String): Flowable<List<GenreModel>> = api.getGenres(apiKey).map {
         it.genres?.map { genre ->
             GenreModel(

@@ -9,11 +9,12 @@ import com.abrahamlay.base.subscriber.DefaultSubscriber
 import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.domain.entities.VideoModel
 import com.abrahamlay.domain.interactors.GetVideos
+import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 09/06/20.
  */
-class VideoViewModel(repositoryImpl: GetVideos) : BaseViewModel() {
+class VideoViewModel @Inject constructor(repositoryImpl: GetVideos) : BaseViewModel() {
     private var movieId: Int = 28
     private val mutableRepo = MutableLiveData<ResultState<List<VideoModel>>>()
     private val triggerFetch = MutableLiveData<Boolean>()

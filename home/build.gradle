@@ -28,9 +28,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinStdLib
 
-    implementation project(':domain')
-    implementation project(':data')
-    implementation project(':base')
+    api project(':base')
 
     //androidx
     implementation support.appcompat
@@ -47,9 +45,12 @@ dependencies {
     implementation support.paging
 
     //dependency injection
-    implementation support.koin
-    implementation support.koinScope
-    implementation support.koinViewmodel
+//    implementation support.koin
+//    implementation support.koinScope
+//    implementation support.koinViewmodel
+    implementation libs.dagger
+    kapt libs.daggerCompiler
+
     implementation support.coroutines
     implementation support.coroutinesCore
 

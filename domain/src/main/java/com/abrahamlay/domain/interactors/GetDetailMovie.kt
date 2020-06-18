@@ -5,11 +5,12 @@ import com.abrahamlay.domain.PostExecutionThread
 import com.abrahamlay.domain.entities.DetailMovieModel
 import com.abrahamlay.domain.repositories.MovieRepository
 import io.reactivex.Flowable
+import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 10/06/20.
  */
-class GetDetailMovie constructor(
+class GetDetailMovie @Inject constructor(
     private val repository: MovieRepository,
     postExecutionThread: PostExecutionThread
 ) : FlowableUseCase<DetailMovieModel, GetDetailMovie.Params>(postExecutionThread) {

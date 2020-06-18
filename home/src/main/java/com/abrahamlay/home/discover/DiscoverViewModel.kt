@@ -14,11 +14,13 @@ import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.domain.interactors.GetDiscoverMoviesByGenre
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 09/06/20.
  */
-class DiscoverViewModel(private val repositoryImpl: GetDiscoverMoviesByGenre) : BaseViewModel(),
+class DiscoverViewModel @Inject constructor(private val repositoryImpl: GetDiscoverMoviesByGenre) :
+    BaseViewModel(),
     DiscoverDataSourceDelegate<MovieModel> {
     private var genreId: Int = 28
 

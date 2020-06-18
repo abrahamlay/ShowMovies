@@ -12,18 +12,22 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.abrahamlay.base.constant.Constants
+import com.abrahamlay.base.di.component.BaseComponent
 import com.abrahamlay.base.presentation.BaseActivity
 import com.abrahamlay.base.presentation.BaseFragment
 import com.abrahamlay.base.subscriber.BaseViewModel
 import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.base.util.DateFormater
 import com.abrahamlay.base.util.GlideHelper
+import com.abrahamlay.detail.internal.di.DaggerDetailPageComponent
+import com.abrahamlay.detail.reviews.ReviewViewModel
+import com.abrahamlay.detail.video.VideoViewModel
 import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.domain.entities.VideoModel
 import kotlinx.android.synthetic.main.fragment_detail.*
 import kotlinx.android.synthetic.main.view_error.*
 import kotlinx.android.synthetic.main.view_review.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 
 /**
@@ -34,9 +38,11 @@ class DetailFragment : BaseFragment<BaseViewModel>() {
     private lateinit var adapter: com.abrahamlay.detail.reviews.ReviewAdapter
     private var detailMovie: MovieModel? = null
 
-    override val viewModel by viewModel<com.abrahamlay.detail.reviews.ReviewViewModel>()
+    @Inject
+    override lateinit var viewModel: ReviewViewModel
 
-    private val viewModelVideo by viewModel<com.abrahamlay.detail.video.VideoViewModel>()
+    @Inject
+    lateinit var viewModelVideo: VideoViewModel
 
     companion object {
         const val PARAM_DETAIL_MOVIE = "detailMovie"
@@ -48,6 +54,7 @@ class DetailFragment : BaseFragment<BaseViewModel>() {
             detailMovie = arguments?.getParcelable(PARAM_DETAIL_MOVIE)
         }
         setHasOptionsMenu(true)
+        DaggerDetailPageComponent.builder().build().inject(this)
     }
 
     override fun onCreateView(
@@ -63,6 +70,13 @@ class DetailFragment : BaseFragment<BaseViewModel>() {
 
         // Inflate the layout for this fragment
         return localInflater.inflate(R.layout.fragment_detail, container, false)
+    }
+
+    override fun injectComponent() {
+        DaggerDetailPageComponent.builder()
+            .baseComponent(getBaseComponent(BaseComponent::class.java))
+            .build()
+            .inject(this)
     }
 
 

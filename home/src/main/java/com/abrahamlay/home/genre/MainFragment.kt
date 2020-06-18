@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import com.abrahamlay.base.di.component.BaseComponent
+import com.abrahamlay.base.di.component.BaseNavigationComponent
 import com.abrahamlay.base.presentation.BaseActivity
 import com.abrahamlay.base.presentation.TabFragment
 import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.domain.entities.GenreModel
 import com.abrahamlay.home.R
 import com.abrahamlay.home.databinding.FragmentMainBinding
+import com.abrahamlay.home.di.DaggerHomePageComponent
 import com.abrahamlay.home.discover.DiscoverMovieFragment
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.view_error.*
@@ -18,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 2020-06-09.
@@ -61,6 +64,14 @@ class MainFragment : TabFragment<GenreViewModel>() {
         }
     }
 
+    override fun injectComponent() {
+        DaggerHomePageComponent.builder()
+            .baseComponent(getBaseComponent(BaseComponent::class.java))
+            .baseNavigationComponent(getAppSubComponent(BaseNavigationComponent::class.java))
+            .build()
+            .inject(this)
+    }
+
     private fun onResultLoaded(resultState: ResultState<List<GenreModel>>?) {
         hideLoading()
         when (resultState) {
@@ -89,7 +100,8 @@ class MainFragment : TabFragment<GenreViewModel>() {
 
     }
 
-    override val viewModel by viewModel<GenreViewModel>()
+    @Inject
+    override lateinit var viewModel: GenreViewModel
 
     private fun showError(throwable: Throwable) {
         errorView.visibility = View.VISIBLE

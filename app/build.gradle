@@ -65,15 +65,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinStdLib
 
-    implementation project(':domain')
-    implementation project(':data')
-    implementation project(':base')
-    implementation project(':home')
-    implementation project(':detail')
+    api project(':home')
+    api project(':detail')
 
     //database
-    implementation support.room
-    kapt support.roomCompiler
+//    implementation support.room
+//    kapt support.roomCompiler
 
     //androidx
     implementation support.appcompat
@@ -83,9 +80,12 @@ dependencies {
     implementation support.design
 
     //dependency injection
-    implementation support.koin
-    implementation support.koinScope
-    implementation support.koinViewmodel
+//    implementation support.koin
+//    implementation support.koinScope
+//    implementation support.koinViewmodel
+
+    implementation libs.dagger
+    kapt libs.daggerCompiler
 
     //navigation
     implementation support.navigationUi

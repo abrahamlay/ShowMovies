@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion androidCompileSdkVersion
     buildToolsVersion androidBuildToolsVersion
@@ -18,13 +20,13 @@ android {
     buildFeatures {
         dataBinding = true
     }
-
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation kotlinStdLib
+
+    api project(':data')
 
     //network
     implementation libs.retrofit
@@ -32,9 +34,12 @@ dependencies {
     implementation libs.gson
 
     //koin
-    implementation support.koin
-    implementation support.koinScope
-    implementation support.koinViewmodel
+//    implementation support.koin
+//    implementation support.koinScope
+//    implementation support.koinViewmodel
+
+    implementation libs.dagger
+    kapt libs.daggerCompiler
 
     //androidx
     implementation support.appcompat

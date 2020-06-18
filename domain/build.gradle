@@ -31,9 +31,12 @@ dependencies {
     implementation libs.gson
     implementation libs.androidAnnotations
 
+    implementation libs.dagger
+    kapt libs.daggerCompiler
+
     //database
-    implementation support.room
-    kapt support.roomCompiler
+//    implementation support.room
+//    kapt support.roomCompiler
 //    implementation support.roomCommon
 //    implementation support.roomRxJava
 

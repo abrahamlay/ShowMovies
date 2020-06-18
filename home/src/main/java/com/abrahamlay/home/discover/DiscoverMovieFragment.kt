@@ -3,16 +3,27 @@ package com.abrahamlay.home.discover
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.abrahamlay.base.di.component.BaseComponent
+import com.abrahamlay.base.di.component.BaseNavigationComponent
+import com.abrahamlay.base.navigation.CommonNavigation
 import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.home.MovieAdapter
 import com.abrahamlay.home.MovieFragment
+import com.abrahamlay.home.di.DaggerHomePageComponent
 import kotlinx.android.synthetic.main.movie_fragment.*
 import kotlinx.android.synthetic.main.view_error.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.OnClickListener {
     private var genreId: Int? = 28
-    override val viewModel by viewModel<DiscoverViewModel>()
+
+
+    @Inject
+    override lateinit var viewModel: DiscoverViewModel
+
+    @Inject
+    lateinit var commonNavigation: CommonNavigation
+
     override fun onRefresh() {
         getGenre()
     }
@@ -42,6 +53,14 @@ class DiscoverMovieFragment : MovieFragment<DiscoverViewModel>(), MovieAdapter.O
         btnRetry.setOnClickListener {
             getGenre()
         }
+    }
+
+    override fun injectComponent() {
+        DaggerHomePageComponent.builder()
+            .baseComponent(getBaseComponent(BaseComponent::class.java))
+            .baseNavigationComponent(getAppSubComponent(BaseNavigationComponent::class.java))
+            .build()
+            .inject(this)
     }
 
     private fun initLiveData() {

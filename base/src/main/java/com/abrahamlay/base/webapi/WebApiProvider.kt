@@ -1,4 +1,4 @@
-package com.abrahamlay.showmovies
+package com.abrahamlay.base.webapi
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,10 +10,10 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by Abraham Lay on 2020-06-09.
  */
-object WebApiProvider {
+class WebApiProvider constructor(val baseUrl: String) {
     fun getRetrofit(): Retrofit = Retrofit
         .Builder()
-        .baseUrl(BuildConfig.API_BASE_URL)
+        .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(

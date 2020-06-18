@@ -9,7 +9,7 @@ ext {
     retrofit2Version = '2.6.1'
     rxJavaVersion = '2.1.9'
     rxAndroid = '2.0.1'
-    daggerVersion = '2.21'
+    daggerVersion = '2.8'
     okhttpVersion = "3.12.1"
     gsonVersion = '2.8.1'
     androidAnnotationsVersion = '29.0.1'

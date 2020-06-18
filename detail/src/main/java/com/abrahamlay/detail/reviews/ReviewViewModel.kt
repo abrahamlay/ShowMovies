@@ -14,11 +14,12 @@ import com.abrahamlay.domain.entities.ReviewModel
 import com.abrahamlay.domain.interactors.GetReviews
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 09/06/20.
  */
-class ReviewViewModel(private val repositoryImpl: GetReviews) : BaseViewModel(),
+class ReviewViewModel @Inject constructor(private val repositoryImpl: GetReviews) : BaseViewModel(),
     ReviewDataSourceDelegate<ReviewModel> {
     private var movieId: Int = 28
 

@@ -9,11 +9,12 @@ import com.abrahamlay.base.subscriber.DefaultSubscriber
 import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.domain.entities.GenreModel
 import com.abrahamlay.domain.interactors.GetGenresInteractor
+import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 09/06/20.
  */
-class GenreViewModel(repositoryImpl: GetGenresInteractor) : BaseViewModel() {
+class GenreViewModel @Inject constructor(repositoryImpl: GetGenresInteractor) : BaseViewModel() {
     private val mutableRepo = MutableLiveData<ResultState<List<GenreModel>>>()
     private val triggerFetch = MutableLiveData<Boolean>()
     val genreData: LiveData<ResultState<List<GenreModel>>> =
