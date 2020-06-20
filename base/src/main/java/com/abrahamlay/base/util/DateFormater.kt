@@ -26,6 +26,10 @@ open class DateFormater {
                 }
             } catch (e: ParseException) {
                 e.printStackTrace()
+            } catch (e: KotlinNullPointerException) {
+                e.printStackTrace()
+            } catch (e: NullPointerException) {
+                e.printStackTrace()
             }
 
             return ""
