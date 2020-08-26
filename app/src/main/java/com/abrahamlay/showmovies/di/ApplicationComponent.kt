@@ -2,6 +2,7 @@ package com.abrahamlay.showmovies.di
 
 import com.abrahamlay.base.di.component.BaseComponent
 import com.abrahamlay.base.di.daggermodule.UseCaseModule
+import com.abrahamlay.data.internal.di.DataModule
 import com.abrahamlay.detail.internal.di.DetailModule
 import com.abrahamlay.home.di.HomePageModule
 import com.abrahamlay.showmovies.AndroidApplication

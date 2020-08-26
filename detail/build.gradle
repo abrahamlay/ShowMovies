@@ -36,6 +36,8 @@ dependencies {
     implementation support.recyclerview
     implementation support.core
     implementation support.design
+    implementation support.lifecycle
+    implementation support.lifecycleVM
 
     //navigation
     implementation support.navigationUi
@@ -52,8 +54,6 @@ dependencies {
     implementation libs.dagger
     kapt libs.daggerCompiler
 
-    implementation support.coroutines
-    implementation support.coroutinesCore
 
     //network
     implementation libs.retrofit

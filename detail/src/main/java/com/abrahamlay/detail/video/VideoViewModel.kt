@@ -2,43 +2,47 @@ package com.abrahamlay.detail.video
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.abrahamlay.base.constant.Constants
-import com.abrahamlay.base.subscriber.BaseViewModel
-import com.abrahamlay.base.subscriber.DefaultSubscriber
+import com.abrahamlay.base.presentation.BaseViewModel
 import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.domain.entities.VideoModel
 import com.abrahamlay.domain.interactors.GetVideos
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 09/06/20.
  */
-class VideoViewModel @Inject constructor(repositoryImpl: GetVideos) : BaseViewModel() {
-    private var movieId: Int = 28
-    private val mutableRepo = MutableLiveData<ResultState<List<VideoModel>>>()
-    private val triggerFetch = MutableLiveData<Boolean>()
-    val videoData: LiveData<ResultState<List<VideoModel>>> =
-        Transformations.switchMap(triggerFetch) {
-            fetchVideo(repositoryImpl)
-            return@switchMap mutableRepo
-        }
+class VideoViewModel : BaseViewModel {
 
-    private fun fetchVideo(repositoryImpl: GetVideos) {
-        repositoryImpl.execute(object : DefaultSubscriber<List<VideoModel>>() {
+    private var repositoryImpl: GetVideos
 
-            override fun onError(error: ResultState<List<VideoModel>>) {
-                mutableRepo.postValue(error)
-            }
-
-            override fun onSuccess(data: ResultState<List<VideoModel>>) {
-                mutableRepo.postValue(data)
-            }
-        }, GetVideos.Params(Constants.API_KEY, movieId))
+    @Inject
+    constructor(repositoryImpl: GetVideos) : super(null) {
+        this.repositoryImpl = repositoryImpl
     }
 
-    fun refreshVideo(movieId: Int) {
-        this.movieId = movieId
-        triggerFetch.value = true
+    constructor(
+        repositoryImpl: GetVideos,
+        testScope: CoroutineScope?
+    ) : super(testScope) {
+        this.repositoryImpl = repositoryImpl
+    }
+
+    private var movieId: Int = 28
+    private val mutableRepo = MutableLiveData<ResultState<List<VideoModel>>>()
+    val videoData: LiveData<ResultState<List<VideoModel>>> = mutableRepo
+
+    suspend fun fetchVideo(movieId: Int?) {
+        repositoryImpl.addParam(GetVideos.Params(Constants.API_KEY, movieId ?: this.movieId))
+            .execute(coroutineScope)
+            .toResult()
+            .run(mutableRepo::postValue)
+    }
+
+    fun triggerFetchVideo(movieId: Int) {
+        GlobalScope.launch { fetchVideo(movieId) }
     }
 }

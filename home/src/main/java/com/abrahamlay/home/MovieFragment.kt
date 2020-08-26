@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.abrahamlay.base.presentation.BaseListFragment
-import com.abrahamlay.base.subscriber.BaseViewModel
+import com.abrahamlay.base.presentation.BaseViewModel
 import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.home.databinding.MovieFragmentBinding
 import kotlinx.android.synthetic.main.movie_fragment.*

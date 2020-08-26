@@ -1,6 +1,6 @@
 package com.abrahamlay.showmovies.di
 
-import com.abrahamlay.base.webapi.WebApiProvider
+import com.abrahamlay.data.webapi.WebApiProvider
 import com.abrahamlay.showmovies.BuildConfig
 import dagger.Module
 import dagger.Provides

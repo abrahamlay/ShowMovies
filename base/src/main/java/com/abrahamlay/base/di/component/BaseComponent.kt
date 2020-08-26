@@ -1,6 +1,5 @@
 package com.abrahamlay.base.di.component
 
-import com.abrahamlay.domain.PostExecutionThread
 import com.abrahamlay.domain.repositories.MovieRepository
 
 /**
@@ -9,5 +8,4 @@ import com.abrahamlay.domain.repositories.MovieRepository
 
 interface BaseComponent {
     fun repository(): MovieRepository
-    fun postExecutionThread(): PostExecutionThread
 }

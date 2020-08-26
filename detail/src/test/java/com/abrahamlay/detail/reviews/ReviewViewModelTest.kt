@@ -1,9 +1,9 @@
 package com.abrahamlay.detail.reviews
 
-import com.abrahamlay.BaseHomeTestClass
-import com.abrahamlay.MockitoHelper
+
+import com.abrahamlay.base.constant.Constants
+import com.abrahamlay.detail.BaseHomeTestClass
 import com.abrahamlay.domain.interactors.GetReviews
-import com.abrahamlay.observeForTesting
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +26,7 @@ class ReviewViewModelTest : BaseHomeTestClass() {
 
     @Before
     fun setUp() {
-        viewModel = ReviewViewModel(command)
+        viewModel = ReviewViewModel(command, testCoroutineRule.testCoroutineScope)
     }
 
     @Test
@@ -34,15 +34,14 @@ class ReviewViewModelTest : BaseHomeTestClass() {
         testCoroutineRule.runBlockingTest {
             //given
             val movieId = 1
+            val map = hashMapOf<String, Any>()
+            map[GetReviews.Params.PAGE_KEY] = 1
 
             //when
-            viewModel.refreshReview(movieId)
-
+            viewModel.getReviewData(movieId, 1, {}, {})
             //then
-            viewModel.productLiveData.observeForTesting {
-                BDDMockito.then(command).should()
-                    .execute(MockitoHelper.anyObject(), MockitoHelper.anyObject())
-            }
+            BDDMockito.then(command).should()
+                .addParam(GetReviews.Params(Constants.API_KEY, movieId, map))
         }
     }
 }

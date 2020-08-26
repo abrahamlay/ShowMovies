@@ -122,10 +122,10 @@ class MovieAdapter : PagedListAdapter<MovieModel, RecyclerView.ViewHolder>(DIFF_
             if (!url.isNullOrEmpty()) {
                 val addedUrl =
                     if (!url.contains("https://") || !url.contains("http://")) String.format(
-                        Constants.MOVIE_THUMBNAIL_BASE_URL_LARGE,
+                        Constants.MOVIE_THUMBNAIL_BASE_URL_DOUBLE_EXTRA_LARGE,
                         url
                     ) else url
-                GlideHelper.showImage(addedUrl, view, view.context)
+                GlideHelper.showThumbnail(addedUrl, view, view.context)
             }
         }
 

@@ -8,22 +8,21 @@ import io.reactivex.Flowable
  */
 
 interface MovieRepository {
-    fun getGenres(apiKey: String): Flowable<List<GenreModel>>
-    fun getDiscoverMovies(apiKey: String, map: HashMap<String, Any>): Flowable<List<MovieModel>>
-    fun getReviews(
+    suspend fun getGenres(apiKey: String): List<GenreModel>
+    suspend fun getDiscoverMovies(apiKey: String, map: HashMap<String, Any>): List<MovieModel>
+    suspend fun getReviews(
         apiKey: String,
         movieId: Int,
         map: HashMap<String, Any>
-    ): Flowable<List<ReviewModel>>
+    ): List<ReviewModel>
 
-    fun getVideo(
+    suspend fun getVideo(
         apiKey: String,
         movieId: Int
-    ): Flowable<List<VideoModel>>
+    ): List<VideoModel>
 
-    fun getMovieDetails(
+    suspend fun getMovieDetails(
         apiKey: String,
         movieId: Int
-    ): Flowable<DetailMovieModel>
-
+    ): DetailMovieModel
 }

@@ -1,8 +1,8 @@
-package com.abrahamlay
+package com.abrahamlay.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.abrahamlay.data.dtos.*
-import com.abrahamlay.domain.entities.MovieModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Rule
 import org.junit.rules.TestRule
 
@@ -10,6 +10,7 @@ open class BaseHomeTestClass {
     @get: Rule
     val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
 
+    @ExperimentalCoroutinesApi
     @get: Rule
     val testCoroutineRule = TestCoroutineRule()
 
