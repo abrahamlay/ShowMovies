@@ -1,5 +1,7 @@
 package com.abrahamlay.base.subscriber
 
+import com.abrahamlay.domain.ErrorBundle
+
 /**
  * Created by Dr.jacky on 10/9/2018.
  */

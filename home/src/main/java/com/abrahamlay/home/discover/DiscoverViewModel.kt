@@ -3,15 +3,15 @@ package com.abrahamlay.home.discover
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.abrahamlay.base.constant.Constants
 import com.abrahamlay.base.state.NetworkState
 import com.abrahamlay.base.subscriber.BaseViewModel
-import com.abrahamlay.base.subscriber.DefaultSubscriber
-import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.domain.entities.MovieModel
 import com.abrahamlay.domain.interactors.GetDiscoverMoviesByGenre
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Inject
@@ -75,26 +75,35 @@ class DiscoverViewModel @Inject constructor(private val repositoryImpl: GetDisco
         onResult: (List<MovieModel>) -> Unit,
         onErrorRequest: (Throwable?) -> Unit
     ) {
+        viewModelScope.launch {
+            fetchDiscoverMovieByPageData(genreId, pagePosition, onResult, onErrorRequest)
+        }
+    }
+
+    private suspend fun fetchDiscoverMovieByPageData(
+        genreId: Int,
+        pagePosition: Int,
+        onResult: (List<MovieModel>) -> Unit,
+        onErrorRequest: (Throwable?) -> Unit
+    ) {
         map[GetDiscoverMoviesByGenre.Params.PAGE_KEY] = pagePosition
         map[GetDiscoverMoviesByGenre.Params.GENRE_KEY] = genreId
-        repositoryImpl.execute(object : DefaultSubscriber<List<MovieModel>>() {
-            override fun onError(error: ResultState<List<MovieModel>>) {
-                if (error is ResultState.Error) {
-                    if (pagePosition == INITIAL_PAGE) {
-                        errorLiveData.value = error.throwable
+        repositoryImpl.addParam(GetDiscoverMoviesByGenre.Params(Constants.API_KEY, map))
+            .execute(viewModelScope)
+            .toPaginationResult(
+                { success ->
+                    if (success.isNotEmpty()) {
+                        onResult(success)
                     } else {
-                        onErrorRequest(error.throwable)
+                        onErrorRequest(Throwable("There is no more item"))
+                    }
+                }, { error ->
+                    if (pagePosition == INITIAL_PAGE) {
+                        errorLiveData.value = error
+                    } else {
+                        onErrorRequest(error)
                     }
                 }
-            }
-
-            override fun onSuccess(data: ResultState<List<MovieModel>>) {
-                if (data is ResultState.Success && data.data.isNotEmpty()) {
-                    onResult(data.data)
-                } else {
-                    onErrorRequest(Throwable("There is no more item"))
-                }
-            }
-        }, GetDiscoverMoviesByGenre.Params(Constants.API_KEY, map))
+            )
     }
 }

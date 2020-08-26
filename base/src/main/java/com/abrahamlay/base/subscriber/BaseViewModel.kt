@@ -1,28 +1,23 @@
 package com.abrahamlay.base.subscriber
 
 import androidx.lifecycle.ViewModel
+import com.abrahamlay.domain.Either
 
 /**
  * Created by Abraham Lay on 2019-10-06.
  */
 abstract class BaseViewModel : ViewModel() {
-    fun onComplete() {
-        // No-op by default
+    protected fun <T> Either<Throwable, T>.toResult() = when (this) {
+        is Either.Error -> ResultState.Error<T>(this.error)
+        is Either.Value -> ResultState.Success(this.value)
     }
 
-    fun onDataEmpty() {
-        // No-op by default
-    }
+    protected fun <T> Either<Throwable, T>.toPaginationResult(
+        onResult: (T) -> Unit,
+        onError: (Throwable?) -> Unit
+    ) = when (this) {
+        is Either.Error -> onError(this.error)
 
-    fun resume() {
-        // No-op by default
-    }
-
-    fun pause() {
-        // No-op by default
-    }
-
-    fun destroy() {
-        // No-op by default
+        is Either.Value -> onResult(this.value)
     }
 }

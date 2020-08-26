@@ -52,8 +52,6 @@ dependencies {
     implementation libs.dagger
     kapt libs.daggerCompiler
 
-    implementation support.coroutines
-    implementation support.coroutinesCore
 
     //network
     implementation libs.retrofit

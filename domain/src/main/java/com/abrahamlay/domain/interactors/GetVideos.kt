@@ -1,10 +1,8 @@
 package com.abrahamlay.domain.interactors
 
-import com.abrahamlay.domain.FlowableUseCase
-import com.abrahamlay.domain.PostExecutionThread
+import com.abrahamlay.domain.CoroutineUseCase
 import com.abrahamlay.domain.entities.VideoModel
 import com.abrahamlay.domain.repositories.MovieRepository
-import io.reactivex.Flowable
 import javax.inject.Inject
 
 /**
@@ -12,11 +10,13 @@ import javax.inject.Inject
  */
 
 class GetVideos @Inject constructor(
-    private val repository: MovieRepository,
-    postExecutionThread: PostExecutionThread
-) : FlowableUseCase<List<VideoModel>, GetVideos.Params>(postExecutionThread) {
-    override fun build(params: Params): Flowable<List<VideoModel>> {
-        return repository.getVideo(params.apiKey, params.movieId)
+    private val repository: MovieRepository
+) : CoroutineUseCase<List<VideoModel>, GetVideos.Params>() {
+    override suspend fun build(params: Params?): List<VideoModel> {
+        return repository.getVideo(
+            params?.apiKey ?: throw Exception("Required apiKey"),
+            params.movieId ?: throw Exception("Required movieId")
+        )
     }
 
     data class Params(val apiKey: String, val movieId: Int)

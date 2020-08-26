@@ -1,4 +1,4 @@
-package com.abrahamlay.base.webapi
+package com.abrahamlay.data.webapi
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

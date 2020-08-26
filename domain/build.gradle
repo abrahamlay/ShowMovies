@@ -27,8 +27,12 @@ dependencies {
     //appcompat
     implementation support.appcompat
 
+    //network
+    api libs.retrofit
+    api libs.okhttp
+    api libs.gson
+
     implementation libs.rxjava
-    implementation libs.gson
     implementation libs.androidAnnotations
 
     implementation libs.dagger
@@ -39,6 +43,10 @@ dependencies {
 //    kapt support.roomCompiler
 //    implementation support.roomCommon
 //    implementation support.roomRxJava
+
+
+    implementation support.coroutines
+    implementation support.coroutinesCore
 
     testImplementation test.jUnit
     androidTestImplementation test.testRunner

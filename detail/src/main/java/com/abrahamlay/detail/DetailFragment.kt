@@ -94,7 +94,7 @@ class DetailFragment : BaseFragment<BaseViewModel>() {
             GlideHelper.showImage(url, ivMovie, context!!)
 
             detailMovie?.id?.let {
-                viewModelVideo.refreshVideo(it)
+                viewModelVideo.triggerFetchVideo()
             }
         }
         viewModelVideo.videoData.observe(this, Observer {

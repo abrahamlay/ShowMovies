@@ -3,15 +3,15 @@ package com.abrahamlay.detail.reviews
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.abrahamlay.base.constant.Constants
 import com.abrahamlay.base.state.NetworkState
 import com.abrahamlay.base.subscriber.BaseViewModel
-import com.abrahamlay.base.subscriber.DefaultSubscriber
-import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.domain.entities.ReviewModel
 import com.abrahamlay.domain.interactors.GetReviews
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.inject.Inject
@@ -78,25 +78,34 @@ class ReviewViewModel @Inject constructor(private val repositoryImpl: GetReviews
         onResult: (List<ReviewModel>) -> Unit,
         onErrorRequest: (Throwable?) -> Unit
     ) {
+        viewModelScope.launch {
+            fetchReviewData(movieId, pagePosition, onResult, onErrorRequest)
+        }
+    }
+
+    private suspend fun fetchReviewData(
+        movieId: Int,
+        pagePosition: Int,
+        onResult: (List<ReviewModel>) -> Unit,
+        onErrorRequest: (Throwable?) -> Unit
+    ) {
         map[GetReviews.Params.PAGE_KEY] = pagePosition
-        repositoryImpl.execute(object : DefaultSubscriber<List<ReviewModel>>() {
-            override fun onError(error: ResultState<List<ReviewModel>>) {
-                if (error is ResultState.Error) {
-                    if (pagePosition == INITIAL_PAGE) {
-                        errorLiveData.value = error.throwable
+        repositoryImpl.addParam(GetReviews.Params(Constants.API_KEY, movieId, map))
+            .execute(viewModelScope)
+            .toPaginationResult(
+                { success ->
+                    if (success.isNotEmpty()) {
+                        onResult(success)
                     } else {
-                        onErrorRequest(error.throwable)
+                        onErrorRequest(Throwable("There is no more item"))
+                    }
+                }, { error ->
+                    if (pagePosition == INITIAL_PAGE) {
+                        errorLiveData.value = error
+                    } else {
+                        onErrorRequest(error)
                     }
                 }
-            }
-
-            override fun onSuccess(data: ResultState<List<ReviewModel>>) {
-                if (data is ResultState.Success && data.data.isNotEmpty()) {
-                    onResult(data.data)
-                } else {
-                    onErrorRequest(Throwable("There is no more item"))
-                }
-            }
-        }, GetReviews.Params(Constants.API_KEY, movieId, map))
+            )
     }
 }

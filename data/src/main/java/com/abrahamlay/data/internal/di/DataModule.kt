@@ -1,8 +1,8 @@
-package com.abrahamlay.showmovies.di
+package com.abrahamlay.data.internal.di
 
-import com.abrahamlay.base.webapi.WebApiProvider
 import com.abrahamlay.data.apis.MovieAPI
 import com.abrahamlay.data.repoimplementations.MovieRepositoryImpl
+import com.abrahamlay.data.webapi.WebApiProvider
 import com.abrahamlay.domain.repositories.MovieRepository
 import dagger.Module
 import dagger.Provides

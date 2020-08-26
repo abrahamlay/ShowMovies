@@ -2,43 +2,38 @@ package com.abrahamlay.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
 import com.abrahamlay.base.constant.Constants
 import com.abrahamlay.base.subscriber.BaseViewModel
-import com.abrahamlay.base.subscriber.DefaultSubscriber
 import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.domain.entities.DetailMovieModel
 import com.abrahamlay.domain.interactors.GetDetailMovie
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
  * Created by Abraham Lay on 09/06/20.
  */
-class DetailViewModel @Inject constructor(repositoryImpl: GetDetailMovie) : BaseViewModel() {
+class DetailViewModel @Inject constructor(val repositoryImpl: GetDetailMovie) : BaseViewModel() {
     private var movieId: Int = 28
     private val mutableRepo = MutableLiveData<ResultState<DetailMovieModel>>()
-    private val triggerFetch = MutableLiveData<Boolean>()
-    val detailData: LiveData<ResultState<DetailMovieModel>> =
-        Transformations.switchMap(triggerFetch) {
-            fetchDetail(repositoryImpl)
-            return@switchMap mutableRepo
-        }
+    val detailData: LiveData<ResultState<DetailMovieModel>> = mutableRepo
 
-    private fun fetchDetail(repositoryImpl: GetDetailMovie) {
-        repositoryImpl.execute(object : DefaultSubscriber<DetailMovieModel>() {
 
-            override fun onError(error: ResultState<DetailMovieModel>) {
-                mutableRepo.postValue(error)
-            }
-
-            override fun onSuccess(data: ResultState<DetailMovieModel>) {
-                mutableRepo.postValue(data)
-            }
-        }, GetDetailMovie.Params(Constants.API_KEY, movieId))
+    init {
+        refreshDetail()
     }
 
-    fun refreshDetail(movieId: Int) {
-        this.movieId = movieId
-        triggerFetch.value = true
+    private suspend fun fetchDetail() {
+        repositoryImpl.addParam(GetDetailMovie.Params(Constants.API_KEY, movieId))
+            .execute(viewModelScope)
+            .toResult()
+            .run(mutableRepo::postValue)
+    }
+
+    fun refreshDetail() {
+        viewModelScope.launch {
+            fetchDetail()
+        }
     }
 }

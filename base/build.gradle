@@ -47,6 +47,7 @@ dependencies {
     implementation support.recyclerview
     implementation support.core
     implementation support.design
+    api support.androidxLifecycle
 
     //rxjava
     implementation libs.rxjava

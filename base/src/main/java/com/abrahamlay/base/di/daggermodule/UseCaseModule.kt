@@ -16,48 +16,37 @@ import javax.inject.Singleton
 class UseCaseModule {
 
     @Provides
-    @Singleton
-    fun provideExecutor(): PostExecutionThread {
-        return AndroidUIThread()
-    }
-
-    @Provides
     fun provideGenreInteractor(
-        movieRepository: MovieRepository,
-        postExecutionThread: PostExecutionThread
+        movieRepository: MovieRepository
     ): GetGenresInteractor {
-        return GetGenresInteractor(movieRepository, postExecutionThread)
+        return GetGenresInteractor(movieRepository)
     }
 
     @Provides
     fun provideDiscoverInteractor(
-        movieRepository: MovieRepository,
-        postExecutionThread: PostExecutionThread
+        movieRepository: MovieRepository
     ): GetDiscoverMoviesByGenre {
-        return GetDiscoverMoviesByGenre(movieRepository, postExecutionThread)
+        return GetDiscoverMoviesByGenre(movieRepository)
     }
 
     @Provides
     fun provideGetReviewInteractor(
-        movieRepository: MovieRepository,
-        postExecutionThread: PostExecutionThread
+        movieRepository: MovieRepository
     ): GetReviews {
-        return GetReviews(movieRepository, postExecutionThread)
+        return GetReviews(movieRepository)
     }
 
     @Provides
     fun provideDetailInteractor(
-        movieRepository: MovieRepository,
-        postExecutionThread: PostExecutionThread
+        movieRepository: MovieRepository
     ): GetDetailMovie {
-        return GetDetailMovie(movieRepository, postExecutionThread)
+        return GetDetailMovie(movieRepository)
     }
 
     @Provides
     fun provideGetVideosInteractor(
-        movieRepository: MovieRepository,
-        postExecutionThread: PostExecutionThread
+        movieRepository: MovieRepository
     ): GetVideos {
-        return GetVideos(movieRepository, postExecutionThread)
+        return GetVideos(movieRepository)
     }
 }

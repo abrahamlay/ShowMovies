@@ -1,10 +1,9 @@
 package com.abrahamlay.domain.interactors
 
-import com.abrahamlay.domain.FlowableUseCase
-import com.abrahamlay.domain.PostExecutionThread
+import com.abrahamlay.domain.CoroutineUseCase
 import com.abrahamlay.domain.entities.GenreModel
 import com.abrahamlay.domain.repositories.MovieRepository
-import io.reactivex.Flowable
+import java.lang.Exception
 import javax.inject.Inject
 
 /**
@@ -12,11 +11,10 @@ import javax.inject.Inject
  */
 
 class GetGenresInteractor @Inject constructor(
-    private val repository: MovieRepository,
-    postExecutionThread: PostExecutionThread
-) : FlowableUseCase<List<GenreModel>, GetGenresInteractor.Params>(postExecutionThread) {
-    override fun build(params: Params): Flowable<List<GenreModel>> =
-        repository.getGenres(params.apiKey)
+    private val repository: MovieRepository
+) : CoroutineUseCase<List<GenreModel>, GetGenresInteractor.Params>() {
+    override suspend fun build(params: Params?): List<GenreModel> =
+        repository.getGenres(params?.apiKey ?: throw Exception("Required apiKey"))
 
     data class Params(val apiKey: String)
 }

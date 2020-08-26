@@ -25,11 +25,6 @@ dependencies {
     //appcompat
     implementation support.appcompat
 
-    //network
-    implementation libs.retrofit
-    implementation libs.okhttp
-    implementation libs.gson
-
     implementation libs.dagger
     kapt libs.daggerCompiler
 
