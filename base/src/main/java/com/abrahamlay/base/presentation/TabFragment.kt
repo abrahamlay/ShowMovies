@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.abrahamlay.base.R
-import com.abrahamlay.base.subscriber.BaseViewModel
 import com.google.android.material.tabs.TabLayout
 
 /**
@@ -40,13 +39,14 @@ abstract class TabFragment<VM : BaseViewModel> : BaseFragment<VM>() {
         titles = mutableListOf()
     }
 
-    protected fun initAdapter(){
+    protected fun initAdapter() {
         adapter = TabAdapter(
             fragments,
             titles,
             childFragmentManager
         )
     }
+
     protected suspend fun initPager() {
         if (isAdded) {
             adapter?.notifyDataSetChanged()

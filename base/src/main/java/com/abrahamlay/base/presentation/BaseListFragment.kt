@@ -2,7 +2,6 @@ package com.abrahamlay.base.presentation
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.abrahamlay.base.subscriber.BaseViewModel
 
 
 /**

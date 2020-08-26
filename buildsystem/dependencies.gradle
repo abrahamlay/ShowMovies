@@ -79,16 +79,15 @@ ext {
             koinViewmodel     : "org.koin:koin-androidx-viewmodel:$koinVersion",
             coroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion",
             coroutinesCore    : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
-            androidxLifecycle  : "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion",
     ]
 
     test = [
-            jUnit        : "junit:junit:$jUnitVersion",
-            espresso     : "androidx.test.espresso:espresso-core:$espressoVersion",
-            testRunner   : "androidx.test:runner:$testRunnerVersion",
+            jUnit         : "junit:junit:$jUnitVersion",
+            espresso      : "androidx.test.espresso:espresso-core:$espressoVersion",
+            testRunner    : "androidx.test:runner:$testRunnerVersion",
             assertj       : "org.assertj:assertj-core:$assertJVersion",
-            mockito      : "org.mockito:mockito-core:$mockitoVersion",
-            mockitoInline: "org.mockito:mockito-inline:$mockitoVersion",
+            mockito       : "org.mockito:mockito-core:$mockitoVersion",
+            mockitoInline : "org.mockito:mockito-inline:$mockitoVersion",
             coreTest      : "androidx.arch.core:core-testing:$coreTestVersion",
             coroutinesTest: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion",
             fragmentTest  : "androidx.fragment:fragment-testing:$fragmentTestVersion"

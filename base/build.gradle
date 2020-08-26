@@ -47,7 +47,8 @@ dependencies {
     implementation support.recyclerview
     implementation support.core
     implementation support.design
-    api support.androidxLifecycle
+    api support.lifecycleVM
+    api support.lifecycle
 
     //rxjava
     implementation libs.rxjava
@@ -59,7 +60,13 @@ dependencies {
     implementation support.navigationUi
     implementation support.navigationFragment
 
-    testImplementation test.jUnit
     androidTestImplementation test.testRunner
     androidTestImplementation test.espresso
+    testImplementation test.jUnit
+    testImplementation test.mockito
+    testImplementation test.mockitoInline
+    testImplementation test.assertj
+    testImplementation test.coreTest
+    testImplementation test.coroutinesTest
+    testImplementation test.fragmentTest
 }

@@ -36,6 +36,8 @@ dependencies {
     implementation support.recyclerview
     implementation support.core
     implementation support.design
+    implementation support.lifecycle
+    implementation support.lifecycleVM
 
     //navigation
     implementation support.navigationUi

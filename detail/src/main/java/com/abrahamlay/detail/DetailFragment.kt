@@ -15,7 +15,7 @@ import com.abrahamlay.base.constant.Constants
 import com.abrahamlay.base.di.component.BaseComponent
 import com.abrahamlay.base.presentation.BaseActivity
 import com.abrahamlay.base.presentation.BaseFragment
-import com.abrahamlay.base.subscriber.BaseViewModel
+import com.abrahamlay.base.presentation.BaseViewModel
 import com.abrahamlay.base.subscriber.ResultState
 import com.abrahamlay.base.util.DateFormater
 import com.abrahamlay.base.util.GlideHelper
@@ -91,10 +91,9 @@ class DetailFragment : BaseFragment<BaseViewModel>() {
             detailDateRelease.text = releaseDate
             val url =
                 String.format(Constants.MOVIE_THUMBNAIL_BASE_URL_MEDIUM, detailMovie?.backdropPath)
-            GlideHelper.showImage(url, ivMovie, context!!)
-
+            GlideHelper.showBackDrop(url, ivMovie, context!!)
             detailMovie?.id?.let {
-                viewModelVideo.triggerFetchVideo()
+                viewModelVideo.triggerFetchVideo(it)
             }
         }
         viewModelVideo.videoData.observe(this, Observer {

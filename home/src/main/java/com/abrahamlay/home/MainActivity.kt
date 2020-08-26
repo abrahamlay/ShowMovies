@@ -3,7 +3,7 @@ package com.abrahamlay.home
 import android.view.MenuItem
 import androidx.navigation.fragment.NavHostFragment
 import com.abrahamlay.base.presentation.BaseActivity
-import com.abrahamlay.base.subscriber.BaseViewModel
+import com.abrahamlay.base.presentation.BaseViewModel
 import javax.inject.Inject
 
 /**

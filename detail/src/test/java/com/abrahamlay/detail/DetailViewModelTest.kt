@@ -1,8 +1,6 @@
-package com.abrahamlay.detail.video
+package com.abrahamlay.detail
 
-import com.abrahamlay.base.constant.Constants
-import com.abrahamlay.detail.BaseHomeTestClass
-import com.abrahamlay.domain.interactors.GetVideos
+import com.abrahamlay.domain.interactors.GetDetailMovie
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
@@ -12,20 +10,20 @@ import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 /**
- * Created by Abraham Lay on 14/06/20.
+ * Created by Abraham Lay on 27/08/20.
  */
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class VideoViewModelTest : BaseHomeTestClass() {
+class DetailViewModelTest : BaseHomeTestClass() {
     //SUT
-    lateinit var viewModel: VideoViewModel
+    lateinit var viewModel: DetailViewModel
 
     @Mock
-    lateinit var command: GetVideos
+    lateinit var command: GetDetailMovie
 
     @Before
     fun setUp() {
-        viewModel = VideoViewModel(command, testCoroutineRule.testCoroutineScope)
+        viewModel = DetailViewModel(command, testCoroutineRule.testCoroutineScope)
     }
 
     @Test
@@ -35,11 +33,11 @@ class VideoViewModelTest : BaseHomeTestClass() {
             val movieId = 1
 
             //when
-            viewModel.triggerFetchVideo(movieId)
+            viewModel.refreshDetail(movieId)
 
             //then
             BDDMockito.then(command).should()
-                .addParam(GetVideos.Params(Constants.API_KEY, movieId))
+                .addParam(GetDetailMovie.Params(API_KEY, movieId))
 
         }
     }

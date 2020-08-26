@@ -9,7 +9,6 @@ import com.abrahamlay.base.di.ComponentOwner
 import com.abrahamlay.base.di.Injectable
 import com.abrahamlay.base.di.SubComponentOwner
 import com.abrahamlay.base.di.component.BaseComponent
-import com.abrahamlay.base.subscriber.BaseViewModel
 
 /**
  * Created by Abraham Lay on 2020-06-09.
@@ -29,7 +28,7 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment(),
         onInitObservers()
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         injectComponent()
     }
